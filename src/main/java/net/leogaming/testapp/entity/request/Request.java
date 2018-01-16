@@ -1,7 +1,5 @@
 package net.leogaming.testapp.entity.request;
 
-import com.sun.istack.internal.NotNull;
-
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
@@ -9,10 +7,11 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Request {
 
-    @NotNull
-    @XmlAttribute private int point;
+    @XmlAttribute(required = true)
+    private int point;
 
-    @XmlElementRef private List<? extends AbstractRequestBody> requestBody;
+    @XmlElementRef
+    private List<? extends AbstractRequestBody> requestBody;
 
     public Request() {
     }
@@ -36,5 +35,13 @@ public class Request {
 
     public void setRequestBody(List<? extends AbstractRequestBody> requestBody) {
         this.requestBody = requestBody;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "point=" + point +
+                ", requestBody=" + requestBody +
+                '}';
     }
 }

@@ -1,27 +1,34 @@
 package net.leogaming.testapp.entity.response;
 
-import com.sun.istack.internal.NotNull;
+import javax.xml.bind.annotation.*;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDateTime;
-
-@XmlRootElement(name = "status")
+@XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ResultEntity extends AbstractResponseBody{
+public class ResultEntity {
 
-    @XmlAttribute private long id;
-    @XmlAttribute private int state;
-    @XmlAttribute private int substate;
-    @XmlAttribute private int trans;
-    @XmlAttribute private int service;
-    @XmlAttribute private int sum;
-    @XmlAttribute private int commission;
+    @XmlAttribute
+    private long id;
 
-    @NotNull
-    @XmlAttribute private int code;
+    @XmlAttribute
+    private int state;
+
+    @XmlAttribute
+    private int substate;
+
+    @XmlAttribute
+    private int trans;
+
+    @XmlAttribute
+    private int service;
+
+    @XmlAttribute
+    private int sum;
+
+    @XmlAttribute
+    private int commission;
+
+    @XmlAttribute(required = true)
+    private int code;
 
     @XmlAttribute(name = "final")
     private int finalStatus;
@@ -116,7 +123,24 @@ public class ResultEntity extends AbstractResponseBody{
         return serverTime;
     }
 
-    public void setServerTime(String  serverTime) {
+    public void setServerTime(String serverTime) {
         this.serverTime = serverTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ResultEntity{" +
+                "id=" + id +
+                ", state=" + state +
+                ", substate=" + substate +
+                ", trans=" + trans +
+                ", service=" + service +
+                ", sum=" + sum +
+                ", commission=" + commission +
+                ", code=" + code +
+                ", finalStatus=" + finalStatus +
+                ", sumProv=" + sumProv +
+                ", serverTime='" + serverTime + '\'' +
+                '}';
     }
 }

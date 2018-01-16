@@ -1,35 +1,34 @@
 package net.leogaming.testapp.entity.request;
 
-import com.sun.istack.internal.NotNull;
 import net.leogaming.testapp.entity.AttributeEntity;
 
 import javax.xml.bind.annotation.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @XmlRootElement(name = "payment")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PaymentEntity extends AbstractRequestBody {
 
-    @NotNull
-    @XmlAttribute private long id;
+    @XmlAttribute(required = true)
+    private long id;
 
-    @NotNull
-    @XmlAttribute private int sum;
+    @XmlAttribute(required = true)
+    private int sum;
 
-    @NotNull
-    @XmlAttribute private int check;
+    @XmlAttribute(required = true)
+    private int check;
 
-    @NotNull
-    @XmlAttribute private int service;
+    @XmlAttribute(required = true)
+    private int service;
 
-    @NotNull
-    @XmlAttribute private String account;
+    @XmlAttribute(required = true)
+    private String account;
 
-    @NotNull
-    @XmlAttribute private String date;
+    @XmlAttribute(required = true)
+    private String date;
 
-    @XmlElement private List<AttributeEntity> attributes;
+    @XmlElement
+    private List<AttributeEntity> attributes;
 
     public long getId() {
         return id;

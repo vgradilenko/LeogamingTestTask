@@ -1,22 +1,32 @@
 package net.leogaming.testapp.entity.request;
 
-import com.sun.istack.internal.NotNull;
 import net.leogaming.testapp.entity.AttributeEntity;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "verify")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VerifyEntity extends AbstractRequestBody {
 
-    @NotNull
-    @XmlAttribute private int service;
+    @XmlAttribute(required = true)
+    private int service;
 
-    @NotNull
-    @XmlAttribute private String account;
+    @XmlAttribute(required = true)
+    private String account;
 
-    @XmlElement private List<AttributeEntity> attributes;
+    @XmlElement
+    private List<AttributeEntity> attributes;
+
+    public VerifyEntity() {
+    }
+
+    public VerifyEntity(int service, String account, List<AttributeEntity> attributes) {
+        this.service = service;
+        this.account = account;
+        this.attributes = attributes;
+    }
 
     public int getService() {
         return service;
@@ -39,6 +49,18 @@ public class VerifyEntity extends AbstractRequestBody {
     }
 
     public void setAttributes(List<AttributeEntity> attributes) {
+        if (attributes == null) {
+            attributes = new ArrayList<>();
+        }
         this.attributes = attributes;
+    }
+
+    @Override
+    public String toString() {
+        return "VerifyEntity{" +
+                "service=" + service +
+                ", account='" + account + '\'' +
+                ", attributes=" + attributes +
+                '}';
     }
 }
