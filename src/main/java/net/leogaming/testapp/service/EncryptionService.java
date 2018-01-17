@@ -1,6 +1,8 @@
 package net.leogaming.testapp.service;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import java.security.SignatureException;
 
 @Component
 public class EncryptionService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
@@ -28,6 +32,7 @@ public class EncryptionService {
             sign.update(message.getBytes("UTF-8"));
             return new String(Base64.encodeBase64(sign.sign()), "UTF-8");
         } catch (Exception ex) {
+            logger.debug("some problem with sign message: " + ex);
             throw new SignatureException(ex);
         }
     }
@@ -39,6 +44,7 @@ public class EncryptionService {
             sign.update(message.getBytes("UTF-8"));
             return sign.verify(Base64.decodeBase64(signature.getBytes("UTF-8")));
         } catch (Exception ex) {
+            logger.debug("problem with verify message: " + ex);
             throw new SignatureException(ex);
         }
     }

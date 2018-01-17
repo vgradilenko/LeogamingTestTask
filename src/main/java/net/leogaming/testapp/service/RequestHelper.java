@@ -4,6 +4,8 @@ import net.leogaming.testapp.entity.request.Request;
 import net.leogaming.testapp.entity.response.Response;
 import net.leogaming.testapp.entity.response.ResultEntity;
 import net.leogaming.testapp.utils.XmlConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +21,8 @@ import java.util.List;
 @Component
 public class RequestHelper {
     private final static String URL = "https://test.lgaming.net/external/extended";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final RestTemplate restTemplate;
     private final XmlConverter converter;
     private final EncryptionService encryptionService;
@@ -33,19 +37,20 @@ public class RequestHelper {
     public Response executeRequest(Request request) throws JAXBException, SignatureException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
-
         String preparedXml = converter.convertToString(request);
 
         headers.add("PayLogic-Signature", encryptionService.sign(preparedXml));
+        logger.debug("headers: " + headers.toString());
         HttpEntity<String> requestHttpEntity = new HttpEntity<>(preparedXml, headers);
-
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(URL, requestHttpEntity, String.class);
 
-        String string = responseEntity.getBody();
-        HttpHeaders responseHeader = responseEntity.getHeaders();
-        List<String> value = responseHeader.get("PayLogic-Signature");
-        boolean bool = encryptionService.verify(string, value.get(0));
+//        String string = responseEntity.getBody();
+//        HttpHeaders responseHeader = responseEntity.getHeaders();
+//        List<String> value = responseHeader.get("PayLogic-Signature");
+//        boolean bool = encryptionService.verify(string, value.get(0));
 
-        return converter.convertXmlToResponse(responseEntity.toString());
+        Response response = converter.convertXmlToResponse(responseEntity.toString());
+        logger.debug("Response: " + response.toString());
+        return response;
     }
 }
